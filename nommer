@@ -1,0 +1,18 @@
+#!/bin/bash
+
+if [ $# -eq 1 ]
+then
+	path=`find ~/s5/systeme/tp4/tags -inum "$1"`
+
+	if [ -z "$path" ]
+	then
+		echo "Fichier portant l'inode $1 non trouvé"
+	else
+		for i in $path
+		do
+		    echo $i
+		done
+	fi
+else
+	echo "Un seul argument attendu"
+fi

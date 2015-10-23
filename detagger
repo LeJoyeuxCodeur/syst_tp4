@@ -1,0 +1,44 @@
+#!/bin/bash
+
+indiceTag=0
+indiceFile=0
+
+# Si deux arguments au moins sont presents
+if [ $# -gt 1 ]
+then
+	path="$HOME/s5/systeme/tp4/tags"
+
+	# Si le dossier du repertoire de tags existe	
+	if [ -d "$path" ]
+	then
+		# Parcours des arguments
+		for i in "$@"
+		do		
+			# Si c'est un tag	
+			if [ -d "$path/$i" ]
+			then
+				# on remplit le tableau de tags avec le tag courant
+				tags[indiceTag]="$i"
+				let "indiceTag++"
+			# Si c'est un fichier
+			else
+				# on remplit le tableau de fichiers avec le fichier courant
+				files[indiceFile]="$i"
+				let "indiceFile++"
+			fi
+		done
+
+		# Parcours des tags et des fichiers
+		for tag in "${tags[@]}"
+		do
+			for file in "${files[@]}"
+			do
+				rm "$path/$tag/$file" >/dev/null 2>&1
+			done
+		done
+	else
+		echo "Le dossier de tags n'existe pas"
+	fi
+else
+	echo "erreur, pas assez d'arguments"
+fi
